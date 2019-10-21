@@ -7,8 +7,8 @@ class HotelAdminForm(forms.ModelForm):
         super(HotelAdminForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        author = self.cleaned_data.get('hotel_name')
-        if len(author) < 4:
+        hotel = self.cleaned_data.get('hotel_name')
+        if len(hotel) < 4:
             raise forms.ValidationError("Hotel name cannot be less than 4", code='error')
         return self.cleaned_data
 
@@ -56,14 +56,18 @@ class RecordAdminFrom(forms.ModelForm):
             raise forms.ValidationError('Checkout date invalid!', code='error')
         if booking_date1> checked_in_date:
             raise forms.ValidationError('Checkout date invalid!', code='error')
-
+        checked_in_date_obj = Record.objects.filter(checkin_date=checked_in_date).exists()
+        checked_out_date_obj=Record.objects.filter(checkout_date=checked_out_date).exists()
 
 
         if Record.objects.filter(room=rooms).exists():
-            if Record.objects.filter(checkin_date=checked_in_date).exists():
-                if Record.objects.filter(checkout_date=checked_out_date).exists():
+            if Record.objects.filter(checked_in_date=(checked_in_date_obj,checked_out_date)):
+            # if Record.objects.filter(checkin_date=checked_in_date).exists():
+            #     if Record.objects.filter(checkout_date=checked_out_date).exists():
+            #         if Record.objects.filter(checkin_date=checked_in_date).exists()< checked_in_date<Record.objects.filter(checkout_date=checked_out_date).exists():
 
-                    raise forms.ValidationError("Can't booked this room , this is already booked", code='error')
+
+                raise forms.ValidationError("Can't booked this room , this is already booked", code='error')
         return self.cleaned_data
 
 
