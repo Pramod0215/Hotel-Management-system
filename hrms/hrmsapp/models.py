@@ -54,7 +54,7 @@ class Manager(models.Model):
 
 class Record(models.Model):
     guest = models.ForeignKey(Guest,on_delete=models.CASCADE)
-    booking_date = models.DateField()
+    booking_date = models.DateField(auto_now=True)
     checkin_date = models.DateField()
     checkout_date = models.DateField()
     room = models.ForeignKey(Room,on_delete=models.CASCADE)

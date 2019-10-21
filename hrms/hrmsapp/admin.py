@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from  .models import Hotel,RoomType,Room,Guest,Manager,Record
-
+import datetime
 class HotelAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(HotelAdminForm, self).__init__(*args, **kwargs)
@@ -38,37 +38,21 @@ class RecordAdminFrom(forms.ModelForm):
 
 
     def clean(self):
+
         checked_out_date = self.cleaned_data.get('checkout_date')
         checked_in_date = self.cleaned_data.get('checkin_date')
-        booking_date1 = self.cleaned_data.get('booking_date')
         rooms = self.cleaned_data.get('room')
 
-
-        # if checked_out_date==None:
-        #     raise forms.ValidationError('Checkout date invalid!', code='error')
-
-        #Chech in date has to be greater than today's date
-        #Check out date has to be greater than check in date
-
+        if checked_in_date is None:
+            raise forms.ValidationError('Checkin date invalid!', code='error')
+        if checked_out_date is None:
+            raise forms.ValidationError('Checkout date invalid!', code='error')
         if checked_in_date > checked_out_date:
             raise forms.ValidationError('Checkout date invalid!',code='error')
-        if booking_date1> checked_out_date:
-            raise forms.ValidationError('Checkout date invalid!', code='error')
-        if booking_date1> checked_in_date:
-            raise forms.ValidationError('Checkout date invalid!', code='error')
-        checked_in_date_obj = Record.objects.filter(checkin_date=checked_in_date).exists()
-        checked_out_date_obj=Record.objects.filter(checkout_date=checked_out_date).exists()
 
-
-        if Record.objects.filter(room=rooms).exists():
-            if Record.objects.filter(checked_in_date=(checked_in_date_obj,checked_out_date)):
-            # if Record.objects.filter(checkin_date=checked_in_date).exists():
-            #     if Record.objects.filter(checkout_date=checked_out_date).exists():
-            #         if Record.objects.filter(checkin_date=checked_in_date).exists()< checked_in_date<Record.objects.filter(checkout_date=checked_out_date).exists():
-
-
-                raise forms.ValidationError("Can't booked this room , this is already booked", code='error')
-        return self.cleaned_data
+        if any(Record.objects.filter(room=rooms,checkin_date__gte= checked_in_date,checkout_date__lte= checked_out_date)):
+            raise forms.ValidationError("Can't booked this room , this is already booked", code='error')
+            return self.cleaned_data
 
 
     def save(self,commit= True):
@@ -101,7 +85,7 @@ admin.site.register(Manager,ManagerAdmin)
 
 
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ('guest','checkin_date','checkout_date','checked_in','manager','cancel','bill')
+    list_display = ('guest','booking_date','checkin_date','checkout_date','checked_in','manager','cancel','bill')
     form = RecordAdminFrom
 admin.site.register(Record,RecordAdmin)
 # Register your models here.

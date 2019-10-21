@@ -6,19 +6,15 @@ from . import views
 
 routers = routers.DefaultRouter()
 routers.register('hotel',views.HotelView)
-#routers.register('manager',views.ManagerView)
-#routers.register('roomType',views.RoomTypeView)
-#routers.register('room',views.RoomView)
-#routers.register('guest',views.GuestView)
-#routers.register('record',views.RecordView)
+routers.register('manager',views.ManagerView)
+routers.register('roomType',views.RoomTypeView)
+routers.register('room',views.RoomView)
+routers.register('guest',views.GuestView)
+routers.register('record',views.RecordView)
 
 
 
 urlpatterns = [
   path('',include(routers.urls)),
-#  path('',include(routers.urls)),
-#  path('',include(routers.urls)),
-#  path('',include(routers.urls)),
-#  path('',include(routers.urls)),
-#  path('',include(routers.urls)),
+
 ]
