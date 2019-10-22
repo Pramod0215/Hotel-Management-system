@@ -20,7 +20,7 @@ class RoomTypeSerializers(serializers.HyperlinkedModelSerializer):
 class RoomSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Room
-        fields = ('id', 'room_number',)
+        fields = ('id','room_number',)
 
 class GuestSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:

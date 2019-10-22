@@ -14,12 +14,18 @@ class Hotel(models.Model):
     def __str__(self):
         return self.hotel_name
 
+    def hotel(self):
+        return self.hotel_name+" "+self.hotel_location
+
 class RoomType(models.Model):
     name = models.CharField("room_type_name", max_length=255)
     room_rent = models.IntegerField()
 
     def __str__(self):
         return self.name
+
+    def roomtype(self):
+        return self.room_rent
 
 class Room(models.Model):
     room_number = models.IntegerField(default=101)
