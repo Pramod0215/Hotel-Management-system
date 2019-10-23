@@ -50,7 +50,7 @@ class Manager(models.Model):
     manager_name = models.CharField(max_length=100)
     manager_phone = models.IntegerField()
     manager_email = models.EmailField()
-    # hotel_location = models.ForeignKey(Hotel,on_delete=models.CASCADE)
+
 
 
     def __str__(self):
