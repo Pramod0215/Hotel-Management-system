@@ -15,13 +15,13 @@ class ManagerSerializers(serializers.HyperlinkedModelSerializer):
 class RoomTypeSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RoomType
-        fields = ('id', 'name', )
+        fields = ('id', 'name','room_rent',)
 
 
 class RoomSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Room
-        fields = ('id','room_number',)
+        fields = ('id','room_number','room_type','availability','bed_number',)
 
 class GuestSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class GuestSerializers(serializers.HyperlinkedModelSerializer):
 class RecordSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Record
-        fields = ('id',)
+        fields = ('id','guest','booking_date','checkin_date','checkout_date','room','manager','checked_in','cancel',)
 
 
   # def is_valid(self, raise_exception=False):
