@@ -6,7 +6,7 @@ from .views import api_hotel_list_view, api_hotel_details_view, api_hotel_detail
   api_record_details_create, api_record_details_delete, api_record_details_update, api_room_list_view, \
   api_room_details_view, api_room_details_create, api_room_details_delete, api_room_details_update, \
   api_roomtype_list_view, api_roomtype_details_create, api_roomtype_details_delete, api_roomtype_details_update, \
-  api_roomtype_details_view, api_guest_list_view
+  api_roomtype_details_view, api_guest_list_view, HotelListcreate, HotelListupdate
 
 urlpatterns = [
   path('hotels/', api_hotel_list_view, name ='hotels'),
@@ -45,5 +45,9 @@ urlpatterns = [
   path('roomtype/<int:pk>/update/', api_roomtype_details_update, name='roomtype_details'),
   path('roomtype/<int:pk>/delete/', api_roomtype_details_delete, name='roomtype_details'),
   path('roomtype/create/', api_roomtype_details_create, name='roomtype_details'),
+
+
+  path('room/listcreate/',HotelListcreate.as_view(), name='hotel_generic'),
+
 
 ]

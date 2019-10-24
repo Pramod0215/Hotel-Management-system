@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework import generics
 from .models import *
 
 from rest_framework.response import Response
@@ -196,8 +197,6 @@ def api_guest_details_create(request):
         return Response(status.HTTP_400_BAD_REQUEST)
     return Response(status.HTTP_405_METHOD_NOT_ALLOWED)
 
-
-
 @ api_view(['PUT'])
 def api_guest_details_update(request, pk):
     try:
@@ -238,9 +237,8 @@ def api_guest_details_delete(request,pk):
 def api_record_list_view(request):
     record = Record.objects.all()
     if request.method == 'GET':
-        serializer = RecordSerializers(record,many=True)
-
-    return Response(serializer.data)
+        serializer = RecordSerializers(record, many=True)
+        return Response(serializer.data)
 
 @ api_view(['GET'])
 def api_record_details_view(request,pk):
@@ -435,3 +433,18 @@ def api_roomtype_details_delete(request,pk):
             data['failure'] = 'delete failed!'
             return Response(status.HTTP_400_BAD_REQUEST)
     return Response(status.HTTP_405_METHOD_NOT_ALLOWED)
+
+# Api Generic
+class HotelListcreate(generics.ListCreateAPIView):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializers
+
+    def perform_create(self, serializer):
+        try:
+            hotel = Hotel.objects.get(hotel_name=self.request.data['hotel_name'])
+            if hotel:
+                raise ValueError('This is already exist!')
+        except Hotel.DoesNotExist:
+            pass
+        serializer.save(hotel_name=self.request.data['hotel_name'], hotel_location=self.request.data['hotel_location'])
+

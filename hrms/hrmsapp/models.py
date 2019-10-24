@@ -21,6 +21,7 @@ class RoomType(models.Model):
     name = models.CharField("room_type_name", max_length=255)
     room_rent = models.IntegerField()
 
+
     def __str__(self):
         return self.name
 
@@ -28,6 +29,7 @@ class RoomType(models.Model):
         return self.room_rent
 
 class Room(models.Model):
+
     room_number = models.IntegerField(default=101)
     room_type = models.ForeignKey(RoomType, on_delete=models.CASCADE)
     availability = models.BooleanField(default=False)
