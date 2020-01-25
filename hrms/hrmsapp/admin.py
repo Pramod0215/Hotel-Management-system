@@ -59,7 +59,7 @@ class RecordAdminFrom(forms.ModelForm):
         return super(RecordAdminFrom,self).save(commit=commit)
 
 class HotelAdmin(admin.ModelAdmin):
-    list_display = ('hotel_name', 'hotel_location',)
+    list_display = ('id','hotel_name', 'hotel_location',)
     form = HotelAdminForm
 admin.site.register(Hotel,HotelAdmin)
 
