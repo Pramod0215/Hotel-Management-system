@@ -55,10 +55,14 @@ email: <optional>
 password: <password>
 confirm password: <confirm the password>
 ```
+When we using serializer so Go to and install rest_framework
+```
+pip3 install djangorestframework
+```
+
 After filling all these to run the project:
 ```
 python3 manage.py runserver
 ```
-
 
 
